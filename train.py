@@ -1,17 +1,3 @@
-import sys,os
-IPYNB_FILENAME = 'test_argv.ipynb'
-CONFIG_FILENAME = '.config_ipynb'
-
-def fuu(argv):
-    with open(CONFIG_FILENAME,'w') as f:
-        f.write(' '.join(argv))
-    os.system('jupyter nbconvert --execute {:s} --to html'.format(IPYNB_FILENAME))
-    return None
-
-if __name__ == '__fuu__':
-    fuu(sys.argv)
-
-
 # coding=utf-8
 from __future__ import absolute_import, print_function
 import time
@@ -32,6 +18,20 @@ import DataSet
 import numpy as np
 import os.path as osp
 cudnn.benchmark = True
+
+import sys,os
+IPYNB_FILENAME = 'test_argv.ipynb'
+CONFIG_FILENAME = '.config_ipynb'
+
+def fuu(argv):
+    with open(CONFIG_FILENAME,'w') as f:
+        f.write(' '.join(argv))
+    os.system('jupyter nbconvert --execute {:s} --to html'.format(IPYNB_FILENAME))
+    return None
+
+if __name__ == '__fuu__':
+    fuu(sys.argv)
+
 
 use_gpu = True
 
