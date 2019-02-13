@@ -33,12 +33,12 @@ def train(epoch, model, criterion, optimizer, train_loader, args):
 
         embed_feat = model(inputs)
 
-        loss, inter_, dist_ap, dist_an = criterion(embed_feat, labels)
+        dist_ap, dist_an, inter_, loss = criterion(embed_feat, labels)
 
         if args.orth_reg != 0:
             loss = orth_reg(net=model, loss=loss, cof=args.orth_reg)
 
-        loss.backward()
+        criterion.backward()
         optimizer.step()
 
         # measure elapsed time
