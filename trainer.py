@@ -38,7 +38,7 @@ def train(epoch, model, criterion, optimizer, train_loader, args):
         if args.orth_reg != 0:
             loss = orth_reg(net=model, loss=loss, cof=args.orth_reg)
 
-        criterion.backward()
+        loss.backward()
         optimizer.step()
 
         # measure elapsed time
