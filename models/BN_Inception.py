@@ -512,7 +512,7 @@ class BNInception(nn.Module):
 def BN_Inception(dim=512, pretrained=True, model_path=None):
     model = BNInception(dim=512)
     if model_path is None:
-        model_path = '/opt/data/users/xunwang/models/bn_inception-239d2248.pth'
+        model_path = 'bn_inception-52deb4733.pth'
     if pretrained is True:
         model_dict = model.state_dict()
         pretrained_dict = torch.load(model_path)
