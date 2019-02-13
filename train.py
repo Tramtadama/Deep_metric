@@ -2,14 +2,14 @@ import sys,os
 IPYNB_FILENAME = 'test_argv.ipynb'
 CONFIG_FILENAME = '.config_ipynb'
 
-def main(argv):
+def fuu(argv):
     with open(CONFIG_FILENAME,'w') as f:
         f.write(' '.join(argv))
     os.system('jupyter nbconvert --execute {:s} --to html'.format(IPYNB_FILENAME))
     return None
 
-if __name__ == '__main__':
-    main(sys.argv)
+if __name__ == '__fuu__':
+    fuu(sys.argv)
 
 
 # coding=utf-8
