@@ -58,7 +58,7 @@ class MyData(data.Dataset):
 
         # Initialization data path and train(gallery or query) txt path
         if root is None:
-            self.root = "/opt/intern/users/xunwang/DataSet/CUB_200_2011/"
+            self.root = "CUB_200_2011/images"
         self.root = root
         
         if label_txt is None:
@@ -115,7 +115,7 @@ class CUB_200_2011:
         # print('ratio is {}'.format(ratio))
         transform_Dict = Generate_transform_Dict(origin_width=origin_width, width=width, ratio=ratio)
         if root is None:
-            root = "/opt/intern/users/xunwang/DataSet/CUB_200_2011/"
+            root = "CUB_200_2011/images"
 
 
         train_txt = os.path.join(root, 'train.txt')
