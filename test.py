@@ -4,17 +4,20 @@ import argparse
 from Model2Feature import Model2Feature
 from evaluations import Recall_at_ks, pairwise_similarity
 from utils.serialization import load_checkpoint
-import torch 
-import ast 
+from whales_sub import make_whales_sub_file, make_whales_predictions
+import torch
+import ast
 
 parser = argparse.ArgumentParser(description='PyTorch Testing')
 
 parser.add_argument('--data', type=str, default='cub')
+parser.add_argument('--whales', type=ast.literal_eval, default=False)
 parser.add_argument('--data_root', type=str, default=None)
 parser.add_argument('--gallery_eq_query', '-g_eq_q', type=ast.literal_eval, default=False,
                     help='Is gallery identical with query')
 parser.add_argument('--net', type=str, default='VGG16-BN')
-parser.add_argument('--resume', '-r', type=str, default='model.pkl', metavar='PATH')
+parser.add_argument('--resume', '-r', type=str,
+                    default='model.pkl', metavar='PATH')
 
 parser.add_argument('--dim', '-d', type=int, default=512,
                     help='Dimension of Embedding Feather')
@@ -33,15 +36,36 @@ checkpoint = load_checkpoint(args.resume)
 print(args.pool_feature)
 epoch = checkpoint['epoch']
 
-gallery_feature, gallery_labels, query_feature, query_labels = \
-    Model2Feature(data=args.data, root=args.data_root, width=args.width, net=args.net, checkpoint=checkpoint,
-                   dim=args.dim, batch_size=args.batch_size, nThreads=args.nThreads, pool_feature=args.pool_feature)
+
+if args.gallery_eq_query is True:
+    gallery_feature, gallery_labels, query_feature, query_labels = \
+        Model2Feature(data=args.data, root=args.data_root, width=args.width, net=args.net, checkpoint=checkpoint,
+                      dim=args.dim, batch_size=args.batch_size, nThreads=args.nThreads, pool_feature=args.pool_feature)
+    sim_mat = sim_mat - torch.eye(sim_mat.size(0))
+else:
+    gallery_loader = torch.utils.data.DataLoader(
+        data.gallery, batch_size=batch_size, shuffle=False,
+        drop_last=False, pin_memory=True, num_workers=nThreads)
+
+    query_loader = torch.utils.data.DataLoader(
+        data.train, batch_size=batch_size,
+        shuffle=False, drop_last=False,
+        pin_memory=True, num_workers=nThreads)
+
+    gallery_feature, gallery_labels = extract_features(
+        model, gallery_loader, print_freq=1e5, metric=None, pool_feature=pool_feature)
+    query_feature, query_labels = extract_features(
+        model, query_loader, print_freq=1e5, metric=None, pool_feature=pool_feature)
 
 sim_mat = pairwise_similarity(query_feature, gallery_feature)
-if args.gallery_eq_query is True:
-    sim_mat = sim_mat - torch.eye(sim_mat.size(0))
 
-recall_ks = Recall_at_ks(sim_mat, query_ids=query_labels, gallery_ids=gallery_labels, data=args.data)
+if whales==True:
+    whales_preds = make_whales_predictions(sim_mat, gallery_labels)
+    make_whales_sub_file(whales_preds)
+else:
+    recall_ks = Recall_at_ks(sim_mat, query_ids=query_labels,
+                            gallery_ids=gallery_labels, data=args.data)
 
-result = '  '.join(['%.4f' % k for k in recall_ks])
+    result = '  '.join(['%.4f' % k for k in recall_ks])
+
 print('Epoch-%d' % epoch, result)

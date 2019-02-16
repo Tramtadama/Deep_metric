@@ -14,41 +14,42 @@ from collections import defaultdict
 def default_loader(path):
     return Image.open(path).convert('RGB')
 
+
 def Generate_transform_Dict(origin_width=224, width=224, ratio=0.16):
-    
+
     std_value = 1.0 / 255.0
     normalize = transforms.Normalize(mean=[104 / 255.0, 117 / 255.0, 128 / 255.0],
-                                     std= [1.0/255, 1.0/255, 1.0/255])
+                                     std=[1.0/255, 1.0/255, 1.0/255])
 
     transform_dict = {}
 
     transform_dict['rand-crop'] = \
-    transforms.Compose([
-                transforms.CovertBGR(),
-                transforms.Resize(origin_width),
-                transforms.RandomResizedCrop(scale=(ratio, 1), size=width),
-                transforms.RandomHorizontalFlip(),
-                transforms.ToTensor(),
-                normalize,
-            ])
+        transforms.Compose([
+            transforms.CovertBGR(),
+            transforms.Resize(origin_width),
+            transforms.RandomResizedCrop(scale=(ratio, 1), size=width),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            normalize,
+        ])
 
     transform_dict['center-crop'] = \
-    transforms.Compose([
-                    transforms.CovertBGR(),
-                    transforms.Resize(origin_width),
-                    transforms.CenterCrop(width),
-                    transforms.ToTensor(),
-                    normalize,
-                ])
-    
+        transforms.Compose([
+            transforms.CovertBGR(),
+            transforms.Resize(origin_width),
+            transforms.CenterCrop(width),
+            transforms.ToTensor(),
+            normalize,
+        ])
+
     transform_dict['resize'] = \
-    transforms.Compose([
-                    transforms.CovertBGR(),
-                    transforms.Resize(width),
-                    transforms.CenterCrop(width),
-                    transforms.ToTensor(),
-                    normalize,
-                ])
+        transforms.Compose([
+            transforms.CovertBGR(),
+            transforms.Resize(width),
+            transforms.CenterCrop(width),
+            transforms.ToTensor(),
+            normalize,
+        ])
     return transform_dict
 
 
@@ -60,7 +61,7 @@ class MyData(data.Dataset):
         if root is None:
             self.root = "preprocessed_imgs"
         self.root = root
-        
+
         if label_txt is None:
             label_txt = os.path.join(root, 'train.txt')
 
@@ -113,16 +114,18 @@ class WHALES:
     def __init__(self, width=224, origin_width=256, ratio=0.16, root=None, transform=None):
         # Data loading code
         # print('ratio is {}'.format(ratio))
-        transform_Dict = Generate_transform_Dict(origin_width=origin_width, width=width, ratio=ratio)
+        transform_Dict = Generate_transform_Dict(
+            origin_width=origin_width, width=width, ratio=ratio)
         if root is None:
             root = "preprocessed_imgs"
-
-
+            
         train_txt = os.path.join(root, 'train.txt')
         test_txt = os.path.join(root, 'test.txt')
 
-        self.train = MyData(root, label_txt=train_txt, transform=transform_Dict['rand-crop'])
-        self.gallery = MyData(root, label_txt=test_txt, transform=transform_Dict['center-crop'])
+        self.train = MyData(root, label_txt=train_txt,
+                            transform=transform_Dict['rand-crop'])
+        self.gallery = MyData(root, label_txt=test_txt,
+                              transform=transform_Dict['center-crop'])
 
 
 def testWHALES():
@@ -135,5 +138,3 @@ def testWHALES():
 
 if __name__ == "__main__":
     testWHALES()
-
-
