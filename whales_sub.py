@@ -7,15 +7,9 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
     pred_list = []
     whale_inst_pred_list = []
     sim_matrix.transpose_(0, 1)
-    print(sim_matrix)
-    print(sim_matrix.shape)
-    print(gallery_lables)
-    print(len(gallery_lables))
-    for query_ind in range(sim_matrix.shape[0]):
+    for query_ind in tqdm(range(sim_matrix.shape[0])):
         query = torch.squeeze(sim_matrix[query_ind][:])
         for i in range(5):
-            print(query.shape)
-            print(query)
             best_fit_val, best_fit_ind = torch.max(query, dim=0)
             if (new_whale_added==False) and best_fit_val < new_whale_thrshld:
                 new_whale_added = True
