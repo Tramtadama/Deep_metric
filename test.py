@@ -46,7 +46,7 @@ if args.gallery_eq_query is True:
     sim_mat = pairwise_similarity(query_feature, gallery_feature)
     sim_mat = sim_mat - torch.eye(sim_mat.size(0))
 else:
-    model = models.create(net, dim=dim, pretrained=False)
+    model = models.create(args.net, dim=args.dim, pretrained=False)
     resume = load_checkpoint(args.resume)
     model.load_state_dict(resume['state_dict'])
     model = torch.nn.DataParallel(model).cuda()
