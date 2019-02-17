@@ -70,7 +70,7 @@ else:
     sim_mat = pairwise_similarity(query_feature, gallery_feature)
 
 if args.whales==True:
-    whales_preds = make_whales_predictions(sim_mat, gallery_labels)
+    whales_preds = make_whales_predictions(sim_mat, query_labels)
     make_whales_sub_file(whales_preds)
 else:
     recall_ks = Recall_at_ks(sim_mat, query_ids=query_labels,
