@@ -23,7 +23,7 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False):
         pred_list.append(whale_inst_pred_list)
     return pred_list
 
-def make_whale_sub_file(pred_list):
+def make_whales_sub_file(pred_list):
     test_df = pd.read_csv('sample_submission.csv')
     whale_ids = list(test_df.Image)
     with open('submission.csv', 'wt', newline='\n') as submission_file:
