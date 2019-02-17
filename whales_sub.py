@@ -4,11 +4,13 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm_notebook as tqdm
 
-def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False):
+def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.5):
     pred_list = []
     whale_inst_pred_list = []
     for query in tqdm(sim_matrix[0]):
         for i in range(5):
+            print(query.shape)
+            print(query)
             best_fit_val = np.max(query)
             best_fit_ind = np.argmax(query)
             if (new_whale_added==False) and best_fit_val < new_whale_thrshld:
