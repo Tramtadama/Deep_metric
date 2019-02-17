@@ -2,6 +2,7 @@
 from __future__ import absolute_import, print_function
 import argparse
 from Model2Feature import Model2Feature
+import DataSet
 from evaluations import Recall_at_ks, pairwise_similarity
 from utils.serialization import load_checkpoint
 from whales_sub import make_whales_sub_file, make_whales_predictions
@@ -43,6 +44,8 @@ if args.gallery_eq_query is True:
                       dim=args.dim, batch_size=args.batch_size, nThreads=args.nThreads, pool_feature=args.pool_feature)
     sim_mat = sim_mat - torch.eye(sim_mat.size(0))
 else:
+    data = DataSet.create(args.data, width=args.width, root=args.data_root)
+
     gallery_loader = torch.utils.data.DataLoader(
         data.gallery, batch_size=batch_size, shuffle=False,
         drop_last=False, pin_memory=True, num_workers=nThreads)
