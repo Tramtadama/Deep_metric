@@ -2,18 +2,20 @@
 from __future__ import absolute_import, print_function
 import numpy as np
 import pandas as pd
+import torch
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.5):
     pred_list = []
     whale_inst_pred_list = []
+    sim_matrix.transpose_(0, 1)
     print(sim_matrix)
     print(sim_matrix.shape)
-    for query in tqdm(sim_matrix[0]):
+    for query_ind in range(sim_matrix.shape[1]):
+        query = torch.squeeze(sim_matrix[:][query_ind])
         for i in range(5):
             print(query.shape)
             print(query)
-            best_fit_val = np.max(query)
-            best_fit_ind = np.argmax(query)
+            best_fit_val, best_fit_ind = torch.max(query, dim=0)
             if (new_whale_added==False) and best_fit_val < new_whale_thrshld:
                 new_whale_added = True
                 whale_inst_pred_list.append('new_whale')
