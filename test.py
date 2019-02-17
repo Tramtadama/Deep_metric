@@ -42,25 +42,31 @@ if args.gallery_eq_query is True:
     gallery_feature, gallery_labels, query_feature, query_labels = \
         Model2Feature(data=args.data, root=args.data_root, width=args.width, net=args.net, checkpoint=checkpoint,
                       dim=args.dim, batch_size=args.batch_size, nThreads=args.nThreads, pool_feature=args.pool_feature)
+    sim_mat = pairwise_similarity(query_feature, gallery_feature)
     sim_mat = sim_mat - torch.eye(sim_mat.size(0))
 else:
+    model = models.create(net, dim=dim, pretrained=False)
+    resume = load_checkpoint(args.resume)
+    model.load_state_dict(resume['state_dict'])
+    model = torch.nn.DataParallel(model).cuda()
+
     data = DataSet.create(args.data, width=args.width, root=args.data_root)
 
     gallery_loader = torch.utils.data.DataLoader(
-        data.gallery, batch_size=batch_size, shuffle=False,
-        drop_last=False, pin_memory=True, num_workers=nThreads)
+        data.gallery, batch_size=args.batch_size, shuffle=False,
+        drop_last=False, pin_memory=True, num_workers=args.nThreads)
 
     query_loader = torch.utils.data.DataLoader(
-        data.train, batch_size=batch_size,
+        data.train, batch_size=args.batch_size,
         shuffle=False, drop_last=False,
-        pin_memory=True, num_workers=nThreads)
+        pin_memory=True, num_workers=args.nThreads)
 
     gallery_feature, gallery_labels = extract_features(
-        model, gallery_loader, print_freq=1e5, metric=None, pool_feature=pool_feature)
+        model, gallery_loader, print_freq=1e5, metric=None, pool_feature=args.pool_feature)
     query_feature, query_labels = extract_features(
-        model, query_loader, print_freq=1e5, metric=None, pool_feature=pool_feature)
+        model, query_loader, print_freq=1e5, metric=None, pool_feature=args.pool_feature)
 
-sim_mat = pairwise_similarity(query_feature, gallery_feature)
+    sim_mat = pairwise_similarity(query_feature, gallery_feature)
 
 if whales==True:
     whales_preds = make_whales_predictions(sim_mat, gallery_labels)
