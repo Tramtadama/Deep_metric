@@ -2,6 +2,7 @@
 from __future__ import absolute_import, print_function
 import pandas as pd
 import torch
+from tqdm import tqdm_notebook as tqdm
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.5):
     pred_list = []
