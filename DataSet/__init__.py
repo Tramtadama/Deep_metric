@@ -28,7 +28,9 @@ def create(name, root=None, *args, **kwargs):
     Create a dataset instance.
     """
     if root is not None:
-        root = os.path.join(root, get_full_name(name))
+        #this one is just hack for the whales to work, for the rest of dsets must use the commented out line
+        root = root
+       # root = os.path.join(root, get_full_name(name))
     
     if name not in __factory:
         raise KeyError("Unknown dataset:", name)
