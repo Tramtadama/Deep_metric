@@ -10,8 +10,10 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
     sim_matrix.transpose_(0, 1)
     print(sim_matrix)
     print(sim_matrix.shape)
-    for query_ind in range(sim_matrix.shape[1]):
-        query = torch.squeeze(sim_matrix[:][query_ind])
+    print(gallery_lables)
+    print(gallery_lables.shape)
+    for query_ind in range(sim_matrix.shape[0]):
+        query = torch.squeeze(sim_matrix[query_ind][:])
         for i in range(5):
             print(query.shape)
             print(query)
