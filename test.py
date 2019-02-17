@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function
 import argparse
 from Model2Feature import Model2Feature
 import DataSet
+import models
 from evaluations import Recall_at_ks, pairwise_similarity
 from utils.serialization import load_checkpoint
 from whales_sub import make_whales_sub_file, make_whales_predictions
