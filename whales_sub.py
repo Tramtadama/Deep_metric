@@ -2,11 +2,12 @@
 from __future__ import absolute_import, print_function
 import numpy as np
 import pandas as pd
-from tqdm import tqdm_notebook as tqdm
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.5):
     pred_list = []
     whale_inst_pred_list = []
+    print(sim_matrix)
+    print(sim_matrix.shape)
     for query in tqdm(sim_matrix[0]):
         for i in range(5):
             print(query.shape)
