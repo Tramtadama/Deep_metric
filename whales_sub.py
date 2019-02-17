@@ -1,6 +1,5 @@
 # coding=utf-8
 from __future__ import absolute_import, print_function
-import numpy as np
 import pandas as pd
 import torch
 
@@ -26,7 +25,7 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
                 whale_inst_pred_list.append(best_fit_id)
                 inds_to_remove = [i for i, x in enumerate(gallery_lables) if x == best_fit_id]
                 for ind in inds_to_remove:
-                    del query[ind]
+                    query = torch.cat([query[:ind], query[ind+1:]])
         pred_list.append(whale_inst_pred_list)
     return pred_list
 
