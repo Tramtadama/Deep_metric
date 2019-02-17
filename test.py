@@ -69,7 +69,7 @@ else:
 
     sim_mat = pairwise_similarity(query_feature, gallery_feature)
 
-if whales==True:
+if args.whales==True:
     whales_preds = make_whales_predictions(sim_mat, gallery_labels)
     make_whales_sub_file(whales_preds)
 else:
