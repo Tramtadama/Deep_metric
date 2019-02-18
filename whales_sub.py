@@ -2,13 +2,13 @@
 from __future__ import absolute_import, print_function
 import pandas as pd
 import torch
-from tqdm import tqdm_notebook as tqdm
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.5):
+    label_ids = torch.load('drive/My Drive/labels_ids.pth')['label_ids']
     pred_list = []
     whale_inst_pred_list = []
     sim_matrix.transpose_(0, 1)
-    for query_ind in tqdm(range(sim_matrix.shape[0])):
+    for query_ind in range(sim_matrix.shape[0]):
         query = torch.squeeze(sim_matrix[query_ind][:])
         for i in range(5):
             best_fit_val, best_fit_ind = torch.max(query, dim=0)
@@ -17,7 +17,9 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
                 whale_inst_pred_list.append('new_whale')
             else:
                 best_fit_id = gallery_lables[best_fit_ind]
-                whale_inst_pred_list.append(best_fit_id)
+                #need to convert best_fit_id into the whale_id_string
+                whale_id_string = label_ids[best_fit_id]
+                whale_inst_pred_list.append(whale_id_string)
                 inds_to_remove = [i for i, x in enumerate(gallery_lables) if x == best_fit_id]
                 for ind in inds_to_remove:
                     query = torch.cat([query[:ind], query[ind+1:]])
