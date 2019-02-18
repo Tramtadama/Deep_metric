@@ -17,7 +17,6 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
                 whale_inst_pred_list.append('new_whale')
             else:
                 best_fit_id = gallery_lables[best_fit_ind]
-                #need to convert best_fit_id into the whale_id_string
                 whale_id_string = label_ids[best_fit_id][0]
                 whale_inst_pred_list.append(whale_id_string)
                 inds_to_remove = [i for i, x in enumerate(gallery_lables) if x == best_fit_id]
@@ -36,4 +35,4 @@ def make_whales_sub_file(pred_list):
             s = " "
             pred_string = s.join(whale_inst_pred_list)
             submission_line = whale_id + ',' + pred_string
-            submission_file.write(submission_line)
+            submission_file.write(submission_line + '\n')
