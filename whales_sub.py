@@ -30,7 +30,7 @@ def make_whales_sub_file(pred_list):
     test_df = pd.read_csv('sample_submission.csv')
     whale_ids = list(test_df.Image)
     with open('submission.csv', 'wt', newline='\n') as submission_file:
-        submission_file.write('Image, Id\n')
+        submission_file.write('Image,Id\n')
         for i, whale_inst_pred_list in enumerate(pred_list):
             whale_id = whale_ids[i]
             s = " "
