@@ -22,7 +22,9 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
                 inds_to_remove = [i for i, x in enumerate(gallery_lables) if x == best_fit_id]
                 for ind in inds_to_remove:
                     query = torch.cat([query[:ind], query[ind+1:]])
+        print(whale_inst_pred_list)
         pred_list.append(whale_inst_pred_list)
+    print(pred_list)
     return pred_list
 
 def make_whales_sub_file(pred_list):
