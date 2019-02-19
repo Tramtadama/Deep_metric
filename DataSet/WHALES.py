@@ -23,6 +23,13 @@ def Generate_transform_Dict(origin_width=224, width=224, ratio=0.16):
 
     transform_dict = {}
 
+    transform_dict['normalize-only'] = \
+        transforms.Compose([
+            transforms.CovertBGR(),
+            transforms.ToTensor(),
+            normalize,
+        ])
+
     transform_dict['rand-crop'] = \
         transforms.Compose([
             transforms.CovertBGR(),
@@ -66,7 +73,7 @@ class MyData(data.Dataset):
             label_txt = os.path.join(root, 'train.txt')
 
         if transform is None:
-            transform_dict = Generate_transform_Dict()['rand-crop']
+            transform_dict = Generate_transform_Dict()['normalize-only']
 
         # read txt get image path and labels
         file = open(label_txt)
@@ -123,15 +130,15 @@ class WHALES:
         test_txt = os.path.join(root, 'test.txt')
 
         self.train = MyData(root, label_txt=train_txt,
-                            transform=transform_Dict['rand-crop'])
-        self.gallery = MyData(root, label_txt=test_txt,
-                              transform=transform_Dict['center-crop'])
+                            transform=transform_Dict['normalize-only'])
+        self.test = MyData(root, label_txt=test_txt,
+                              transform=transform_Dict['normalize-only'])
 
 
 def testWHALES():
     print(WHALES.__name__)
     data = WHALES()
-    print(len(data.gallery))
+    print(len(data.test))
     print(len(data.train))
     print(data.train[1])
 

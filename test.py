@@ -54,11 +54,11 @@ else:
     data = DataSet.create(args.data, width=args.width, root=args.data_root)
 
     gallery_loader = torch.utils.data.DataLoader(
-        data.gallery, batch_size=args.batch_size, shuffle=False,
+        data.train, batch_size=args.batch_size, shuffle=False,
         drop_last=False, pin_memory=True, num_workers=args.nThreads)
 
     query_loader = torch.utils.data.DataLoader(
-        data.train, batch_size=args.batch_size,
+        data.test, batch_size=args.batch_size,
         shuffle=False, drop_last=False,
         pin_memory=True, num_workers=args.nThreads)
 
@@ -70,7 +70,7 @@ else:
     sim_mat = pairwise_similarity(query_feature, gallery_feature)
 
 if args.whales==True:
-    whales_preds = make_whales_predictions(sim_mat, query_labels)
+    whales_preds = make_whales_predictions(sim_mat, gallery_labels)
     make_whales_sub_file(whales_preds)
 else:
     recall_ks = Recall_at_ks(sim_mat, query_ids=query_labels,
