@@ -7,8 +7,10 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
     label_ids = torch.load('drive/My Drive/labels_ids.pth')['label_ids']
     pred_list = []
     whale_inst_pred_list = []
+    gallery_copy = gallery_lables
     for query_ind in range(sim_matrix.shape[0]):
         query = sim_matrix[query_ind]
+        gallery_lables = gallery_copy
         for i in range(5):
             best_fit_val, best_fit_ind = torch.max(query, dim=0)
             if (new_whale_added==False) and best_fit_val < new_whale_thrshld:
