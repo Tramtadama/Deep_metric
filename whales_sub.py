@@ -2,7 +2,6 @@
 from __future__ import absolute_import, print_function
 import pandas as pd
 import torch
-import pdb
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.8):
     label_ids = torch.load('drive/My Drive/labels_ids.pth')['label_ids']
@@ -11,7 +10,6 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
     for query_ind in range(sim_matrix.shape[0]):
         query = sim_matrix[query_ind]
         for i in range(5):
-            pdb.set_trace()
             best_fit_val, best_fit_ind = torch.max(query, dim=0)
             if (new_whale_added==False) and best_fit_val < new_whale_thrshld:
                 new_whale_added = True
@@ -20,8 +18,9 @@ def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, n
                 best_fit_id = gallery_lables[best_fit_ind]
                 whale_id_string = label_ids[best_fit_id][0]
                 whale_inst_pred_list.append(whale_id_string)
-                inds_to_remove = [i for i, x in enumerate(gallery_lables) if x == best_fit_id]
-                for ind in inds_to_remove:
+                inds_to_remove = [k for k, x in enumerate(gallery_lables) if x == best_fit_id]
+                for j, ind in enumerate(inds_to_remove):
+                    ind -= j
                     del gallery_lables[ind]
                     query = torch.cat([query[:ind], query[ind+1:]])
         pred_list.append(whale_inst_pred_list)
