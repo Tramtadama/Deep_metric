@@ -2,12 +2,15 @@
 from __future__ import absolute_import, print_function
 import pandas as pd
 import torch
+import pdb
 
 def make_whales_predictions(sim_matrix, gallery_lables, new_whale_added=False, new_whale_thrshld=0.8):
     label_ids = torch.load('drive/My Drive/labels_ids.pth')['label_ids']
     pred_list = []
     whale_inst_pred_list = []
+    pdb.set_trace()
     gallery_copy = gallery_lables
+
     for query_ind in range(sim_matrix.shape[0]):
         query = sim_matrix[query_ind]
         gallery_lables = gallery_copy
