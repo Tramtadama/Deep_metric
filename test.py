@@ -54,8 +54,6 @@ else:
 
     data = DataSet.create(args.data, width=args.width, root=args.data_root)
 
-    pdb.set_trace()
-
     gallery_loader = torch.utils.data.DataLoader(
         data.train, batch_size=args.batch_size, shuffle=False,
         drop_last=False, pin_memory=True, num_workers=args.nThreads)
