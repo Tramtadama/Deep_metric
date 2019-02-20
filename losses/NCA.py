@@ -44,7 +44,7 @@ class NCALoss(nn.Module):
             if len(pos_neig) == 0:
                 pos_neig = pos_pair[0]
 
-            base = torch.mean(sim_mat[i]).data[0]
+            base = torch.mean(sim_mat[i]).item()
             # 计算logit, base的作用是防止超过计算机浮点数
             pos_logit = torch.sum(torch.exp(self.alpha*(base - pos_neig)))
             neg_logit = torch.sum(torch.exp(self.alpha*(base - neg_neig)))
