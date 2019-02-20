@@ -50,7 +50,7 @@ class NCALoss(nn.Module):
             neg_logit = torch.sum(torch.exp(self.alpha*(base - neg_neig)))
             loss_ = -torch.log(pos_logit/(pos_logit + neg_logit))
 
-            if loss_.data[0] < 0.6:
+            if loss_.item() < 0.6:
                 acc_num += 1
             loss.append(loss_)
             
