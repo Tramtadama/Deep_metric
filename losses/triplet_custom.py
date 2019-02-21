@@ -13,7 +13,7 @@ class TripletLoss(nn.Module):
             sample = sim_mat[idx[i], :]
             target_iden = str(targets[i].item())
             pos_ind_l = t2i[target_iden]
-            pos_ind_l.remove(idx)
+            pos_ind_l.remove(idx[i])
             pos = torch.min(sample[pos_ind_l])
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
             neg = torch.max(sample[neg_ind_l])
