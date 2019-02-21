@@ -10,6 +10,7 @@ class TripletLoss(nn.Module):
     def forward(self, inputs, targets, sim_mat, idx, t2i, all_idx_l):
         
         n = targets.shape[0]
+        loss = []
 
         for i in range(targets.shape[0]):
             sample = sim_mat[idx[i], :]
