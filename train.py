@@ -90,12 +90,23 @@ def main(args):
         sampler=FastRandomIdentitySampler(data.train, num_instances=args.num_instances),
         drop_last=True, pin_memory=True, num_workers=args.nThreads)
 
+    features_loader = torch.utils.data.DataLoader(
+        data.train, batch_size=args.batch_size, shuffle=False,
+        drop_last=False, pin_memory=True, num_workers=args.nThreads)
     # save the train information
+    idx_all_l = []
+    for i in range(13623)
+        idx_all_l.append(i)
 
     for epoch in range(start, args.epochs):
 
+        if epoch%10 == 0:
+            features, _, _ = extract_features(
+                model, features_loader, print_freq=1e5, metric=None, pool_feature=args.pool_feature)
+            sim_mat = torch.mm(features, features.t())
+
         train(epoch=epoch, model=model, criterion=criterion,
-              optimizer=optimizer, train_loader=train_loader, args=args)
+              optimizer=optimizer, train_loader=train_loader, args=args, sim_mat=sim_mat, idx_all_l=idx_all_l)
 
         if epoch == 1:
             optimizer.param_groups[0]['lr_mul'] = 0.1

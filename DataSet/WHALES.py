@@ -111,7 +111,7 @@ class MyData(data.Dataset):
         img = self.loader(fn)
         if self.transform is not None:
             img = self.transform(img)
-        return img, label
+        return img, label, index
 
     def __len__(self):
         return len(self.images)
