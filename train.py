@@ -104,7 +104,7 @@ def main(args):
 
         if epoch%10 == 0:
             features, _, _ = extract_features(
-                model, features_loader, print_freq=1e5, metric=None, pool_feature=args.pool_feature)
+                model, features_loader, print_freq=1e5, metric=None, pool_feature=False)
             sim_mat = torch.mm(features, features.t())
 
         train(epoch=epoch, model=model, criterion=criterion,
