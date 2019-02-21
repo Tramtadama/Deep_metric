@@ -11,7 +11,7 @@ cudnn.benchmark = True
 
 def train(epoch, model, criterion, optimizer, train_loader, args, sim_mat, idx_all_l):
 
-    label_ids = torch.load('drive/My Drive/t2i.pth')['t2i']
+    t2i = torch.load('drive/My Drive/t2i.pth')['t2i']
     losses = AverageMeter()
     batch_time = AverageMeter()
     accuracy = AverageMeter()
