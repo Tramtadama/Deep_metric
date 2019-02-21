@@ -1,4 +1,5 @@
 from torch import nn
+import torch
 import pdb
 
 class TripletLoss(nn.Module):
@@ -9,16 +10,15 @@ class TripletLoss(nn.Module):
     def forward(self, inputs, targets, sim_mat, idx, t2i, all_idx_l):
 
         for i in range(targets.shape[0]):
-            pdb.set_trace()
             sample = sim_mat[idx[i], :]
             target_iden = str(targets[i].item())
             pos_ind_l = t2i[target_iden]
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
             pos_ind_l.remove(idx[i])
-            pos = torch.min(sample[pos_ind_l])
-            neg = torch.max(sample[neg_ind_l])
+            pos = torch.min(sample[pos_ind_l], dim=0)
+            neg = torch.max(sample[neg_ind_l], dim=0)
             loss_formula = pos - neg + margin
-            loss = max(loss_formula, 0)
+            loss = torch.max(torch.tensor([loss_formula, 0]), dim=0)
         #take sim_mat[idx[0], :]
         #get sim_mat[idx[0], :] cols_target = check what cols correspond to same class as target except for the anchor(need target to idx map) and
         #positive_instances = cols_target
