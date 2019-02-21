@@ -7,10 +7,12 @@ import sys
 import torch.utils.data
 from torch.backends import cudnn
 from torch.autograd import Variable
+import torch
 import models
 import losses
 from utils import FastRandomIdentitySampler, mkdir_if_missing, logging, display
 from utils.serialization import save_checkpoint, load_checkpoint
+from evaluations import extract_features
 from trainer import train
 from utils import orth_reg
 
