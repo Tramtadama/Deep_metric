@@ -17,6 +17,8 @@ class TripletLoss(nn.Module):
             target_iden = str(targets[i].item())
             pos_ind_l = t2i[target_iden]
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
+            if idx[i] not in pos_ind_l:
+                pdb.set_trace()
             pos_ind_l.remove(idx[i])
             pos, _ = torch.min(sample[pos_ind_l], dim=0)
             neg, _ = torch.max(sample[neg_ind_l], dim=0)
