@@ -6,6 +6,7 @@ from .Binomial import BinomialLoss
 from .LiftedStructure import LiftedStructureLoss
 from .Weight import WeightLoss
 from .HardMining import HardMiningLoss
+from .triplet_custom import TripletLoss
 
 __factory = {
     'NCA': NCALoss,
@@ -14,6 +15,7 @@ __factory = {
     'LiftedStructure': LiftedStructureLoss,
     'Weight': WeightLoss,
     'HardMining': HardMiningLoss,
+    'Triplet': TripletLoss,
 }
 
 
