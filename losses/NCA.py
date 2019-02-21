@@ -42,6 +42,7 @@ class NCALoss(nn.Module):
 
             # 若前K个近邻中没有正样本，则仅取最近正样本
             if len(pos_neig) == 0:
+                print(pos_pair)
                 pos_neig = pos_pair[0]
 
             base = torch.mean(sim_mat[i]).item()
@@ -54,7 +55,7 @@ class NCALoss(nn.Module):
 
             #if loss_.item() < 0.6:
             #    acc_num += 1
-            
+
             loss.append(loss_)
             
         loss = sum(loss)/n
