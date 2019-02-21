@@ -8,6 +8,8 @@ class TripletLoss(nn.Module):
         self.margin = margin
 
     def forward(self, inputs, targets, sim_mat, idx, t2i, all_idx_l):
+        
+        n = targets.shape[0]
 
         for i in range(targets.shape[0]):
             sample = sim_mat[idx[i], :]
@@ -29,4 +31,4 @@ class TripletLoss(nn.Module):
         #get min of positive_instances
         #formula for loss
         #loss = max(pos-neg+margin,0)
-        return loss.sum(dim=1).mean()
+        return sum(loss)/n
