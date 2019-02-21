@@ -95,7 +95,7 @@ def main(args):
         drop_last=False, pin_memory=True, num_workers=args.nThreads)
     # save the train information
     idx_all_l = []
-    for i in range(13623)
+    for i in range(13623):
         idx_all_l.append(i)
 
     for epoch in range(start, args.epochs):
