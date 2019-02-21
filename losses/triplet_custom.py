@@ -10,6 +10,7 @@ class TripletLoss(nn.Module):
     def forward(self, inputs, targets, sim_mat, idx, t2i, all_idx_l):
 
         for i in range(targets.shape[0]):
+            pdb.set_trace()
             sample = sim_mat[idx[i], :]
             target_iden = str(targets[i].item())
             pos_ind_l = t2i[target_iden]
