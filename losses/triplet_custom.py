@@ -19,7 +19,7 @@ class TripletLoss(nn.Module):
             pos_ind_l.remove(idx[i])
             pos, _ = torch.min(sample[pos_ind_l], dim=0)
             neg, _ = torch.max(sample[neg_ind_l], dim=0)
-            loss_formula = neg - pos + margin
+            loss_formula = neg - pos + self.margin
             loss.append(torch.max(torch.tensor([loss_formula, 0]), dim=0))
         #take sim_mat[idx[0], :]
         #get sim_mat[idx[0], :] cols_target = check what cols correspond to same class as target except for the anchor(need target to idx map) and
