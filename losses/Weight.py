@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import pdb
 import torch
 from torch import nn
 from torch.autograd import Variable
@@ -55,6 +56,7 @@ class WeightLoss(nn.Module):
                 loss.append(pos_loss + neg_loss)
             
         loss = sum(loss)/n
+        pdb.set_trace()
         prec = float(c)/n
         mean_neg_sim = torch.mean(neg_pair_).item()
         mean_pos_sim = torch.mean(pos_pair_).item()
