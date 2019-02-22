@@ -10,7 +10,7 @@ class TripletLoss(nn.Module):
 
     def forward(self, inputs, targets, features, idx, t2i, all_idx_l):
 
-        sim_mat = torch.mm(inputs.cpu(), features.t())
+        sim_mat = torch.mm(inputs, features.t().cuda())
         #must change stuff so that sim mat is calculated from inputs, otherwise it stays constant inputs are not used and that makes no sense
         n = targets.shape[0]
         loss = []
