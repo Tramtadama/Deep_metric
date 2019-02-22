@@ -9,7 +9,7 @@ from torch.backends import cudnn
 cudnn.benchmark = True
 
 
-def train(epoch, model, criterion, optimizer, train_loader, args, sim_mat, idx_all_l):
+def train(epoch, model, criterion, optimizer, train_loader, args, features, idx_all_l):
 
     t2i = torch.load('drive/My Drive/t2i.pth')['t2i']
     losses = AverageMeter()
@@ -33,7 +33,7 @@ def train(epoch, model, criterion, optimizer, train_loader, args, sim_mat, idx_a
 
         embed_feat = model(inputs)
 
-        loss = criterion(embed_feat, labels, sim_mat, idx, t2i, idx_all_l)
+        loss = criterion(embed_feat, labels, features, idx, t2i, idx_all_l)
 
         if args.orth_reg != 0:
             loss = orth_reg(net=model, loss=loss, cof=args.orth_reg)

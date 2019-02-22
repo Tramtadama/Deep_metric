@@ -8,8 +8,10 @@ class TripletLoss(nn.Module):
         super(TripletLoss, self).__init__()
         self.margin = margin
 
-    def forward(self, inputs, targets, sim_mat, idx, t2i, all_idx_l):
-        
+    def forward(self, inputs, targets, features, idx, t2i, all_idx_l):
+
+        sim_mat = torch.mm(inputs, features.t())
+        #must change stuff so that sim mat is calculated from inputs, otherwise it stays constant inputs are not used and that makes no sense
         n = targets.shape[0]
         loss = []
 
@@ -38,4 +40,6 @@ class TripletLoss(nn.Module):
         #get min of positive_instances
         #formula for loss
         #loss = max(pos-neg+margin,0)
-        return sum(loss)/n
+        batch_loss = sum(loss)/n
+        batch_loss.requires_grad = True
+        return batch_loss

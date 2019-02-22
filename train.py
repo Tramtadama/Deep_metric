@@ -105,10 +105,9 @@ def main(args):
         if epoch%10 == 0:
             features, _,= extract_features(
                 model, features_loader, print_freq=1e5, metric=None, pool_feature=False)
-            sim_mat = torch.mm(features, features.t())
 
         train(epoch=epoch, model=model, criterion=criterion,
-              optimizer=optimizer, train_loader=train_loader, args=args, sim_mat=sim_mat, idx_all_l=idx_all_l)
+              optimizer=optimizer, train_loader=train_loader, args=args, featurer=features, idx_all_l=idx_all_l)
 
         if epoch == 1:
             optimizer.param_groups[0]['lr_mul'] = 0.1
