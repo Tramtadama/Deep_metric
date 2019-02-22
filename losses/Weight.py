@@ -15,7 +15,7 @@ class WeightLoss(nn.Module):
         self.beta = beta
         self.hard_mining = hard_mining
 
-    def forward(self, inputs, targets):
+    def forward(self, inputs, targets, features, idx, t2i, all_idx_l):
         n = inputs.size(0)
         sim_mat = torch.matmul(inputs, inputs.t())
         targets = targets
@@ -60,7 +60,7 @@ class WeightLoss(nn.Module):
         prec = float(c)/n
         mean_neg_sim = torch.mean(neg_pair_).item()
         mean_pos_sim = torch.mean(pos_pair_).item()
-        return  mean_pos_sim, mean_neg_sim, prec, loss
+        return loss
 
 def main():
     data_size = 32
