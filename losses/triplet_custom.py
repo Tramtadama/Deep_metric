@@ -41,5 +41,4 @@ class TripletLoss(nn.Module):
         #formula for loss
         #loss = max(pos-neg+margin,0)
         batch_loss = sum(loss)/n
-        batch_loss.requires_grad = True
         return batch_loss
