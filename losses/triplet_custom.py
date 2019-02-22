@@ -29,8 +29,6 @@ class TripletLoss(nn.Module):
             pos, _ = torch.min(sample[pos_ind_l], dim=0)
             neg, _ = torch.max(sample[neg_ind_l], dim=0)
             loss_formula = neg - pos + self.margin
-            loss.append(torch.max(torch.tensor([loss_formula, 0])))
-            pdb.set_trace()
         #take sim_mat[idx[0], :]
         #get sim_mat[idx[0], :] cols_target = check what cols correspond to same class as target except for the anchor(need target to idx map) and
         #positive_instances = cols_target
@@ -42,5 +40,4 @@ class TripletLoss(nn.Module):
         #formula for loss
         #loss = max(pos-neg+margin,0)
         batch_loss = sum(loss)/n
-        pdb.set_trace()
         return batch_loss
