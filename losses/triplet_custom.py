@@ -18,7 +18,7 @@ class TripletLoss(nn.Module):
             target_iden = str(targets[i].item())
             pos_ind_l = copy.deepcopy(t2i[target_iden])
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
-            
+
             if idx[i] not in pos_ind_l:
                 pdb.set_trace()
             pos_ind_l.remove(idx[i])
@@ -38,4 +38,5 @@ class TripletLoss(nn.Module):
         #get min of positive_instances
         #formula for loss
         #loss = max(pos-neg+margin,0)
+        pdb.set_trace()
         return sum(loss)/n
