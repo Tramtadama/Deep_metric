@@ -1,5 +1,6 @@
 from torch import nn
 import torch
+import copy
 import pdb
 
 class TripletLoss(nn.Module):
@@ -15,9 +16,9 @@ class TripletLoss(nn.Module):
         for i in range(targets.shape[0]):
             sample = sim_mat[idx[i], :]
             target_iden = str(targets[i].item())
-            pos_ind_l = t2i[target_iden]
+            pos_ind_l = copy.deepcopy(t2i[target_iden])
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
-
+            
             if idx[i] not in pos_ind_l:
                 pdb.set_trace()
             pos_ind_l.remove(idx[i])
