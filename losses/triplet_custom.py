@@ -16,7 +16,7 @@ class TripletLoss(nn.Module):
         loss = []
 
         for i in range(targets.shape[0]):
-            sample = sim_mat[idx[i], :]
+            sample = sim_mat[i, :]
             target_iden = str(targets[i].item())
             pos_ind_l = copy.deepcopy(t2i[target_iden])
             neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
