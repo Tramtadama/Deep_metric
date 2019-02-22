@@ -4,7 +4,7 @@ import copy
 import pdb
 
 class TripletLoss(nn.Module):
-    def __init__(self, margin=0.1, **kwargs):
+    def __init__(self, margin=0, **kwargs):
         super(TripletLoss, self).__init__()
         self.margin = margin
 
