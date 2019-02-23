@@ -1,4 +1,5 @@
 import torch
+import copy
 
 def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
 
