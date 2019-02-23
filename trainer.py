@@ -5,7 +5,7 @@ from utils import AverageMeter, orth_reg
 import  torch
 from torch.autograd import Variable
 from torch.backends import cudnn
-from .evaluations import get_apn
+from evaluations.get_apn import get_apn
 
 cudnn.benchmark = True
 
