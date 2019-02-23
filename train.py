@@ -83,7 +83,8 @@ def main(args):
     optimizer = torch.optim.Adam(param_groups, lr=args.lr,
                                  weight_decay=args.weight_decay)
 
-    criterion = losses.create(args.loss, margin=args.margin, alpha=args.alpha, base=args.loss_base).cuda()
+    # criterion = losses.create(args.loss, margin=args.margin, alpha=args.alpha, base=args.loss_base).cuda()
+    criterion = torch.nn.TripletMarginLoss(margin=0.5)
 
     # Decor_loss = losses.create('decor').cuda()
     data = DataSet.create(args.data, ratio=args.ratio, width=args.width, origin_width=args.origin_width, root=args.data_root)
