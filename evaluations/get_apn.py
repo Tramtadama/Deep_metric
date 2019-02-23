@@ -1,5 +1,6 @@
 import torch
 import copy
+import pdb
 
 def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
 
@@ -18,7 +19,8 @@ def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
         pos_ind_l.remove(idx[i])
         pos, pos_idx = torch.min(sample[pos_ind_l], dim=0)
         neg, neg_idx = torch.max(sample[neg_ind_l], dim=0)
-
+        
+        pdb.set_trace()
         pos[i] = features[pos_idx]
         neg[i] = features[neg_idx]
 
