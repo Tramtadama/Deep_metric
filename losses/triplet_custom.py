@@ -1,5 +1,6 @@
 from torch import nn
 import torch
+import torch.nn.functional as F
 import copy
 import pdb
 
@@ -27,7 +28,7 @@ class TripletLoss(nn.Module):
                 pdb.set_trace()
             pos, _ = torch.min(sample[pos_ind_l], dim=0)
             neg, _ = torch.max(sample[neg_ind_l], dim=0)
-            loss_formula = neg - pos + self.margin
+            loss_formula = F.relu(neg - pos + self.margin)
             loss.append(loss_formula)
         #take sim_mat[idx[0], :]
         #get sim_mat[idx[0], :] cols_target = check what cols correspond to same class as target except for the anchor(need target to idx map) and
