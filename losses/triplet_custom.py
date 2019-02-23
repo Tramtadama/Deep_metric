@@ -28,6 +28,7 @@ class TripletLoss(nn.Module):
                 pdb.set_trace()
             pos, _ = torch.min(sample[pos_ind_l], dim=0)
             neg, _ = torch.max(sample[neg_ind_l], dim=0)
+            check = neg + self.margin
             loss_formula = F.relu(neg - pos + self.margin)
             loss.append(loss_formula)
         #take sim_mat[idx[0], :]
@@ -40,5 +41,6 @@ class TripletLoss(nn.Module):
         #get min of positive_instances
         #formula for loss
         #loss = max(pos-neg+margin,0)
+        pdb.set_trace()
         batch_loss = sum(loss)/n
         return batch_loss
