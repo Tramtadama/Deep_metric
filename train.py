@@ -107,7 +107,8 @@ def main(args):
             features, _,= extract_features(
                 model, features_loader, print_freq=1e5, metric=None, pool_feature=False)
             sim_mat = torch.mm(features, features.t())
-            pdb.set_trace()
+            if epoch != 0:
+                pdb.set_trace()
 
         train(epoch=epoch, model=model, criterion=criterion,
               optimizer=optimizer, train_loader=train_loader, args=args, features=features, idx_all_l=idx_all_l)
