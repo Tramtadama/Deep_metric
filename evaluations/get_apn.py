@@ -5,6 +5,7 @@ import pdb
 
 def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
 
+    pdb.set_trace()
     pos = torch.zeros([targets.shape[0], features.shape[1]])
     neg = torch.zeros([targets.shape[0], features.shape[1]])
     anchor = torch.zeros([targets.shape[0], features.shape[1]])
