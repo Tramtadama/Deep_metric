@@ -2,17 +2,17 @@ import torch
 import copy
 import pdb
 
+
 def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
 
     pos = torch.zeros([targets.shape[0], features.shape[1]])
     neg = torch.zeros([targets.shape[0], features.shape[1]])
     anchor = torch.zeros([targets.shape[0], features.shape[1]])
-    sim_mat = torch.mm(inputs, features.t().cuda()) 
+    sim_mat = torch.mm(inputs, features.t().cuda())
 
     for i in range(targets.shape[0]):
         ind = idx[i]
         anchor[i] = features[ind]
-        
         sample = sim_mat[i, :]
         target_iden = str(targets[i].item())
         pos_ind_l = copy.deepcopy(t2i[target_iden])
@@ -24,5 +24,6 @@ def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
         neg_ind = neg_ind_l[neg_idx]
         pos[i] = features[pos_ind]
         neg[i] = features[neg_ind]
-     pdb.set_trace()   
-        return anchor, pos, neg
+
+    #pdb.set_trace()   
+    return anchor, pos, neg
