@@ -19,10 +19,10 @@ def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
         neg_ind_l = list(set(all_idx_l) - set(pos_ind_l))
         pos_ind_l.remove(ind)
         _, pos_idx = torch.min(sample[pos_ind_l], dim=0)
-        pos = pos_ind_l[pos_idx]
+        pos_ind = pos_ind_l[pos_idx]
         _, neg_idx = torch.max(sample[neg_ind_l], dim=0)
-        neg = neg_ind_l[neg_idx]
-        pos[i] = features[pos_idx]
-        neg[i] = features[neg_idx]
+        neg_ind = neg_ind_l[neg_idx]
+        pos[i] = features[pos_ind]
+        neg[i] = features[neg_ind]
 
         return anchor, pos, neg
