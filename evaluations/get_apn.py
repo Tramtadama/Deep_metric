@@ -25,5 +25,5 @@ def get_apn(inputs, targets, features, idx, t2i, all_idx_l):
         pos[i] = features[pos_ind]
         neg[i] = features[neg_ind]
 
-    #pdb.set_trace()   
+    pdb.set_trace()   
     return anchor, pos, neg
