@@ -52,7 +52,7 @@ def extract_features(model, data_loader, print_freq=1, metric=None, pool_feature
             end = time.time()
         del outputs
 
-    return feature_cpu, labels
+    return feature_gpu, labels
 
 
 def pairwise_distance(features, metric=None):
