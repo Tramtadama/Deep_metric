@@ -12,7 +12,6 @@ cudnn.benchmark = True
 
 def train(epoch, model, criterion, optimizer, train_loader, args, features, idx_all_l):
 
-    t2i = torch.load('drive/My Drive/t2i.pth')['t2i']
     losses = AverageMeter()
     batch_time = AverageMeter()
     accuracy = AverageMeter()
@@ -25,18 +24,21 @@ def train(epoch, model, criterion, optimizer, train_loader, args, features, idx_
 
     for i, data_ in enumerate(train_loader, 0):
 
-        inputs, labels, idx = data_
+        inputs, poss, negs, labels = data_
 
         inputs = inputs.cuda()
         labels = labels.cuda()
+        poss = poss.cuda()
+        negs = negs.cuda()
 
         optimizer.zero_grad()
 
-        embed_feat = model(inputs)
+        anchor_emb = model(inputs)
+        poss_emb = model(poss)
+        negs_emb = model(negs)
+     #   anchor, pos, neg = get_apn(embed_feat, labels, features, idx, t2i, idx_all_l)
 
-        anchor, pos, neg = get_apn(embed_feat, labels, features, idx, t2i, idx_all_l)
-
-        loss = criterion(anchor, pos, neg)
+        loss = criterion(anchor_emb, poss_emb, negs_emb)
 
         if args.orth_reg != 0:
             loss = orth_reg(net=model, loss=loss, cof=args.orth_reg)

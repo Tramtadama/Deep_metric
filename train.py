@@ -87,20 +87,12 @@ def main(args):
     criterion = torch.nn.TripletMarginLoss(margin=0.5)
 
     # Decor_loss = losses.create('decor').cuda()
-    data = DataSet.create(args.data, ratio=args.ratio, width=args.width, origin_width=args.origin_width, root=args.data_root)
 
-    train_loader = torch.utils.data.DataLoader(
-        data.train, batch_size=args.batch_size,
-        sampler=FastRandomIdentitySampler(data.train, num_instances=args.num_instances),
-        drop_last=True, pin_memory=True, num_workers=args.nThreads)
-
+    features_data = DataSet.create(args.data, ratio=args.ratio, width=args.width, origin_width=args.origin_width, root=args.data_root)
     features_loader = torch.utils.data.DataLoader(
-        data.train, batch_size=args.batch_size, shuffle=False,
+        features_data.train, batch_size=args.batch_size, shuffle=False,
         drop_last=False, pin_memory=True, num_workers=args.nThreads)
     # save the train information
-    idx_all_l = []
-    for i in range(13623):
-        idx_all_l.append(i)
 
     for epoch in range(start, args.epochs):
 
@@ -108,8 +100,15 @@ def main(args):
             features, _,= extract_features(
                 model, features_loader, print_freq=1e5, metric=None, pool_feature=False)
 
+            data = DataSet.create(args.data, features=features, ratio=args.ratio, width=args.width, origin_width=args.origin_width, root=args.data_root)
+
+            train_loader = torch.utils.data.DataLoader(
+                data.train, batch_size=args.batch_size,
+                sampler=FastRandomIdentitySampler(data.train, num_instances=args.num_instances),
+                drop_last=True, pin_memory=True, num_workers=args.nThreads)
+
         train(epoch=epoch, model=model, criterion=criterion,
-              optimizer=optimizer, train_loader=train_loader, args=args, features=features, idx_all_l=idx_all_l)
+              optimizer=optimizer, train_loader=train_loader, args=args)
 
         if epoch == 1:
             optimizer.param_groups[0]['lr_mul'] = 0.1

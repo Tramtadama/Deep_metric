@@ -62,7 +62,7 @@ def Generate_transform_Dict(origin_width=224, width=224, ratio=0.16):
 
 class MyData(data.Dataset):
     def __init__(self, root=None, label_txt=None,
-                 transform=None, loader=default_loader):
+                 transform=None, loader=default_loader, features=None):
 
         # Initialization data path and train(gallery or query) txt path
         if root is None:
@@ -96,6 +96,15 @@ class MyData(data.Dataset):
         for i, label in enumerate(labels):
             Index[label].append(i)
 
+        idx_all_l = []
+        for i in range(13623):
+            idx_all_l.append(i)
+     
+        t2i = torch.load('drive/My Drive/t2i.pth')['t2i']
+
+        if features == None:
+            features = torch.zeros((len(images), len(images)))
+
         # Initialization Done
         self.root = root
         self.images = images
@@ -104,21 +113,44 @@ class MyData(data.Dataset):
         self.transform = transform
         self.Index = Index
         self.loader = loader
+        self.features = features
+        self.idx_all_l = idx_all_l
+        self.t2i = t2i
 
     def __getitem__(self, index):
+
+        anchor = self.features[index]
+        anchor_sim = torch.mm(anchor.cuda(), self.features.t().cuda())
+
+        target_iden = str(self.labels[index].item())
+        pos_ind_l = copy.deepcopy(self.t2i[target_iden])
+        neg_ind_l = list(set(self.all_idx_l) - set(pos_ind_l))
+        pos_ind_l.remove(index)
+        _, pos_idx = torch.min(anchor_sim[pos_ind_l], dim=0)
+        pos_ind = pos_ind_l[pos_idx]
+        _, neg_idx = torch.max(anchor_sim[neg_ind_l], dim=0)
+        neg_ind = neg_ind_l[neg_idx]
+
+        
+        pos_fn = os.path.join(self.root, self.images[pos_ind])
+        neg_fn = os.path.joint(self.root, self.images[neg_ind])
         fn, label = self.images[index], self.labels[index]
         fn = os.path.join(self.root, fn)
+        neg = self.loader(neg_fn)
+        pos = self.loader(pos_fn)
         img = self.loader(fn)
         if self.transform is not None:
+            pos = self.transform(pos)
+            neg = self.transform(pos)
             img = self.transform(img)
-        return img, label, index
+        return img, pos, neg, label
 
     def __len__(self):
         return len(self.images)
 
 
 class WHALES:
-    def __init__(self, width=224, origin_width=256, ratio=0.16, root=None, transform=None):
+    def __init__(self, width=224, origin_width=256, ratio=0.16, root=None, transform=None, features=None):
         # Data loading code
         # print('ratio is {}'.format(ratio))
         transform_Dict = Generate_transform_Dict(

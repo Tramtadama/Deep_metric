@@ -28,7 +28,7 @@ def extract_features(model, data_loader, print_freq=1, metric=None, pool_feature
     labels = list()
     end = time.time()
 
-    for i, (imgs, pids, _) in enumerate(data_loader):
+    for i, (imgs, _, _, pids) in enumerate(data_loader):
         imgs = imgs
         outputs = extract_cnn_feature(model, imgs, pool_feature=pool_feature)
         feature_gpu = torch.cat((feature_gpu, outputs.data), 0)
@@ -52,7 +52,7 @@ def extract_features(model, data_loader, print_freq=1, metric=None, pool_feature
             end = time.time()
         del outputs
 
-    return feature_gpu, labels
+    return feature_cpu, labels
 
 
 def pairwise_distance(features, metric=None):
