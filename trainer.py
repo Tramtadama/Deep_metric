@@ -5,7 +5,6 @@ from utils import AverageMeter, orth_reg
 import  torch
 from torch.autograd import Variable
 from torch.backends import cudnn
-from evaluations.get_apn import get_apn
 
 cudnn.benchmark = True
 
@@ -36,7 +35,6 @@ def train(epoch, model, criterion, optimizer, train_loader, args, features, idx_
         anchor_emb = model(inputs)
         poss_emb = model(poss)
         negs_emb = model(negs)
-     #   anchor, pos, neg = get_apn(embed_feat, labels, features, idx, t2i, idx_all_l)
 
         loss = criterion(anchor_emb, poss_emb, negs_emb)
 
