@@ -120,7 +120,7 @@ class MyData(data.Dataset):
     def __getitem__(self, index):
 
         anchor = self.features[index]
-        anchor_sim = torch.mm(anchor.cuda(), self.features.t().cuda())
+        anchor_sim = torch.mm(anchor, self.features.t())
 
         target_iden = str(self.labels[index].item())
         pos_ind_l = copy.deepcopy(self.t2i[target_iden])
