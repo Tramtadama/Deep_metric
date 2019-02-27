@@ -123,7 +123,7 @@ class MyData(data.Dataset):
         anchor = self.features[index]
         anchor.unsqueeze_(0)
         anchor_sim = torch.mm(anchor, self.features.t())
-        assert anchor_sim.shape == torch.Size([1, 13623])
+        anchor_sim.squeeze_()
 
         target_iden = str(self.labels[index])
         pos_ind_l = copy.deepcopy(self.t2i[target_iden])
