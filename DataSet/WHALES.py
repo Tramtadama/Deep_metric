@@ -120,7 +120,9 @@ class MyData(data.Dataset):
     def __getitem__(self, index):
 
         anchor = self.features[index]
+        anchor.unsqueeze_(0)
         anchor_sim = torch.mm(anchor, self.features.t())
+        assert anchor_sim.shape == torch.Size([1, 13623])
 
         target_iden = str(self.labels[index].item())
         pos_ind_l = copy.deepcopy(self.t2i[target_iden])
@@ -141,7 +143,7 @@ class MyData(data.Dataset):
         img = self.loader(fn)
         if self.transform is not None:
             pos = self.transform(pos)
-            neg = self.transform(pos)
+            neg = self.transform(neg)
             img = self.transform(img)
         return img, pos, neg, label
 
