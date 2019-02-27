@@ -9,7 +9,7 @@ from torch.backends import cudnn
 cudnn.benchmark = True
 
 
-def train(epoch, model, criterion, optimizer, train_loader, args, features, idx_all_l):
+def train(epoch, model, criterion, optimizer, train_loader, args):
 
     losses = AverageMeter()
     batch_time = AverageMeter()
