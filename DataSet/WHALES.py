@@ -127,7 +127,7 @@ class MyData(data.Dataset):
 
         target_iden = str(self.labels[index])
         pos_ind_l = copy.deepcopy(self.t2i[target_iden])
-        neg_ind_l = list(set(self.all_idx_l) - set(pos_ind_l))
+        neg_ind_l = list(set(self.idx_all_l) - set(pos_ind_l))
         pos_ind_l.remove(index)
         _, pos_idx = torch.min(anchor_sim[pos_ind_l], dim=0)
         pos_ind = pos_ind_l[pos_idx]
