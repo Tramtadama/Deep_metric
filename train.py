@@ -84,7 +84,7 @@ def main(args):
                                  weight_decay=args.weight_decay)
 
     # criterion = losses.create(args.loss, margin=args.margin, alpha=args.alpha, base=args.loss_base).cuda()
-    criterion = torch.nn.TripletMarginLoss(margin=0.5)
+    criterion = torch.nn.TripletMarginLoss(margin=1)
 
     # Decor_loss = losses.create('decor').cuda()
 
