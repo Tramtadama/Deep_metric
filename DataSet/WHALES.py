@@ -124,7 +124,7 @@ class MyData(data.Dataset):
         anchor_sim = torch.mm(anchor, self.features.t())
         assert anchor_sim.shape == torch.Size([1, 13623])
 
-        target_iden = str(self.labels[index].item())
+        target_iden = str(self.labels[index])
         pos_ind_l = copy.deepcopy(self.t2i[target_iden])
         neg_ind_l = list(set(self.all_idx_l) - set(pos_ind_l))
         pos_ind_l.remove(index)
