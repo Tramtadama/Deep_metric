@@ -9,6 +9,7 @@ from PIL import Image
 import os
 from DataSet import transforms
 from collections import defaultdict
+import copy
 
 
 def default_loader(path):
