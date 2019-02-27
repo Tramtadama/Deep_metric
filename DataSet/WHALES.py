@@ -135,10 +135,13 @@ class MyData(data.Dataset):
         neg_ind = neg_ind_l[neg_idx]
 
         
-        pos_fn = os.path.join(self.root, self.images[pos_ind])
-        neg_fn = os.path.joint(self.root, self.images[neg_ind])
+        pos_fn = self.images[pos_ind])
+        neg_fn = self.images[neg_ind])
         fn, label = self.images[index], self.labels[index]
         fn = os.path.join(self.root, fn)
+        pos_fn = os.path.join(self.root, pos_fn)
+        neg_fn = os.path.joint(self.root, neg_fn)
+        
         neg = self.loader(neg_fn)
         pos = self.loader(pos_fn)
         img = self.loader(fn)
