@@ -121,7 +121,6 @@ class MyData(data.Dataset):
 
     def __getitem__(self, index):
         
-        pdb.set_trace()
         anchor = self.features[index]
         anchor.unsqueeze_(0)
         anchor_sim = torch.mm(anchor, self.features.t())
@@ -133,6 +132,10 @@ class MyData(data.Dataset):
         pos_ind_l.remove(index)
         _, pos_idx = torch.min(anchor_sim[pos_ind_l], dim=0)
         pos_ind = pos_ind_l[pos_idx]
+
+        if 7060 in neg_ind_l:
+            pdb.set_trace()
+            
         _, neg_idx = torch.max(anchor_sim[neg_ind_l], dim=0)
         neg_ind = neg_ind_l[neg_idx]
 
