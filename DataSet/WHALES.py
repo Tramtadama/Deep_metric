@@ -10,6 +10,7 @@ import os
 from DataSet import transforms
 from collections import defaultdict
 import copy
+import pdb
 
 
 def default_loader(path):
@@ -119,7 +120,8 @@ class MyData(data.Dataset):
         self.t2i = t2i
 
     def __getitem__(self, index):
-
+        
+        pdb.set_trace()
         anchor = self.features[index]
         anchor.unsqueeze_(0)
         anchor_sim = torch.mm(anchor, self.features.t())
